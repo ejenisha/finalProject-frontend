@@ -1,11 +1,50 @@
-
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const [role, setRole] = useState('CTO'); // Default role: CTO
+  const [role, setRole] = useState('Admin'); // Default role: Admin
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate(); // For navigation
 
   const handleRoleChange = (selectedRole) => {
     setRole(selectedRole);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent form submission
+
+    try {
+      const response = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      console.log(data)
+      if (response.ok) {
+        // Save token in localStorage or context
+        localStorage.setItem('token', data.token);
+
+        // Redirect based on role
+        if (data.role === role && email===data.email) {
+          navigate('/Admin');
+        } else if (data.role === role && email===data.email) {
+          navigate('/trainer');
+        }
+        else{
+          alert("Invalid RoleCredentials")
+        }
+      } else {
+        alert(data.message); // Show error message
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
 
   return (
@@ -20,17 +59,17 @@ const Login = () => {
 
       {/* Modal Form */}
       <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full p-8 z-10">
-        {/* Role Selection (CTO, Trainers) */}
+        {/* Role Selection (Admin, Trainers) */}
         <div className="flex justify-center space-x-4 mb-6">
           <button
             className={`py-2 px-4 rounded-t-lg font-semibold ${
-              role === 'CTO'
+              role === 'Admin'
                 ? 'bg-blue-500 text-white'
                 : 'bg-gray-200 text-gray-700'
             }`}
-            onClick={() => handleRoleChange('CTO')}
+            onClick={() => handleRoleChange('Admin')}
           >
-            CTO
+            Admin
           </button>
           <button
             className={`py-2 px-4 rounded-t-lg font-semibold ${
@@ -47,7 +86,7 @@ const Login = () => {
         <h2 className="text-2xl font-extrabold text-center mb-6">LOG IN</h2>
 
         {/* Login Form */}
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email-address" className="sr-only">
               Email address
@@ -57,6 +96,8 @@ const Login = () => {
               name="email"
               type="email"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               placeholder="Email Address"
             />
@@ -71,6 +112,8 @@ const Login = () => {
               name="password"
               type="password"
               required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               placeholder="Password"
             />
