@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import Nav from './Nav';
 import axios from 'axios'; // Import Axios
-
+import { ToastContainer, toast } from 'react-toastify'; // Import Toastify components
+import 'react-toastify/dist/ReactToastify.css';
 const AddTraining = ({ role }) => {
   const [isEmployeeModalOpen, setIsEmployeeModalOpen] = useState(false);
   const [isTrainingModalOpen, setIsTrainingModalOpen] = useState(false);
@@ -40,9 +41,14 @@ const AddTraining = ({ role }) => {
       console.log('Employee added:', response.data);
       setIsEmployeeModalOpen(false);
       setEmployee({ emp_id: '', emp_name: '', designation: '' });
+      toast.success("Employee added Successfully",{
+        autoClose:3
+      })
     } catch (error) {
       console.error('Error adding employee:', error.response.data);
-      alert('Redundant employee: ' + error.response.data.message);
+      toast.error("Employee already exist",{
+        autoClose:3
+      })
     }
   };
 
@@ -80,9 +86,14 @@ const AddTraining = ({ role }) => {
         password: '',
         role: 'Trainer', // Reset role to default value
       });
+      toast.success("Training added successfully",{
+        autoClose:3
+      })
     } catch (error) {
       console.error('Error adding training:', error.response.data);
-      alert('Error: ' + error.response.data.message);
+      toast.error("Training already exist",{
+        autoClose:3
+      })
     }
   };
   return (
@@ -165,7 +176,7 @@ const AddTraining = ({ role }) => {
         <Modal
           isOpen={isTrainingModalOpen}
           onRequestClose={() => setIsTrainingModalOpen(false)}
-          className="bg-white p-4 rounded shadow-lg h-4/6 w-2/5 relative"
+          className="bg-white p-4 rounded shadow-lg h-3/5 w-2/5 relative"
           overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
         >
           <h2 className="text-lg font-bold mb-4 font-bold text-[#3411a3]">Add Training</h2>
@@ -253,6 +264,7 @@ const AddTraining = ({ role }) => {
           </form>
         </Modal>
       </div>
+      <ToastContainer/>
     </div>
   );
 };

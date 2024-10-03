@@ -21,6 +21,11 @@ const Nav = ({ role, setRole, showNav }) => {
           {/* Center the portal title */}
           <div className="text-2xl ">Learning Management Portal</div>
           <div className="space-x-12">
+          {role === "Trainer" ? (
+              <Link to="/trainer" className="hover:text-gray-200 text-xl">Home</Link>
+            ) : (
+              <Link to="/Admin" className="hover:text-gray-200 text-xl">Home</Link>
+            )}
             {role === "Trainer" ? (
               <Link to="/trainer/scores" className="hover:text-gray-200 text-xl">Training Scores</Link>
             ) : (
