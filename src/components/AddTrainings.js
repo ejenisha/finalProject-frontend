@@ -165,7 +165,7 @@ const AddTraining = ({ role }) => {
         <Modal
           isOpen={isTrainingModalOpen}
           onRequestClose={() => setIsTrainingModalOpen(false)}
-          className="bg-white p-4 rounded shadow-lg h-3/5 w-2/5 relative"
+          className="bg-white p-4 rounded shadow-lg h-4/6 w-2/5 relative"
           overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
         >
           <h2 className="text-lg font-bold mb-4 font-bold text-[#3411a3]">Add Training</h2>
