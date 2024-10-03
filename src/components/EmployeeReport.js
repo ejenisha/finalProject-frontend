@@ -152,13 +152,13 @@ const EmployeeReport = ({ role }) => {
             {/* Employee Details Section */}
             <div className="w-1/3 shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-lg p-4 bg-white flex-grow">
   <h2 className="text-xl font-bold mb-2 text-[#3411a3]">Employee Details</h2>
-  <p className="mb-1 font-bold text-xl"><strong className="text-[#3411a3] font-bold text-xl mr-20">ID:</strong> {employeeDetails.emp_id}</p>
-  <p className="mb-1 font-bold text-xl"><strong className="text-[#3411a3] font-bold text-xl mr-12">Name:</strong> {employeeDetails.emp_name}</p>
-  <p className="mb-4 font-bold text-xl"><strong className="text-[#3411a3] font-bold text-xl">Designation:</strong> {employeeDetails.designation}</p>
+  <p className="mb-1 font-bold text-xl"><strong className="text-[#3411a3] font-bold text-xl mr-20">ID:</strong><span className="text-[#EC4899]"> {employeeDetails.emp_id}</span></p>
+  <p className="mb-1 font-bold text-xl"><strong className="text-[#3411a3] font-bold text-xl mr-12">Name:</strong><span className="text-[#EC4899]"> {employeeDetails.emp_name}</span></p>
+  <p className="mb-4 font-bold text-xl"><strong className="text-[#3411a3] font-bold text-xl">Designation:</strong> <span className="text-[#EC4899]">{employeeDetails.designation}</span></p>
   <h3 className="mt-4 text-[#3411a3] font-bold text-xl">Trainings:</h3>
   <ul className="list-disc list-inside ml-12 font-bold text-xl">
     {trainingScores.map((score, index) => (
-      <li key={index} className="mb-1 text-gray-700">{score.Training_name}</li>
+      <li key={index} className="mb-1 text-[#EC4899]">{score.Training_name}</li>
     ))}
   </ul>
 </div>

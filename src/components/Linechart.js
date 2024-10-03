@@ -50,7 +50,7 @@ const Linechart = () => {
       labels: {
         style: {
           colors: '#3411a3', // Set the hex color for categories
-          fontSize: '14px', // You can adjust the font size if needed
+          fontSize: '12px', // You can adjust the font size if needed
         },
       },
     },

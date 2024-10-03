@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Nav from './Nav';
+import { ToastContainer, toast } from 'react-toastify'; // Import Toastify components
+import 'react-toastify/dist/ReactToastify.css';
 const Training = ({role}) => {
   const [formData, setFormData] = useState({
     emp_id: '',
@@ -17,8 +19,7 @@ const Training = ({role}) => {
 
   const [employees, setEmployees] = useState([]); // To store the fetched employee data
   const [trainings, setTrainings] = useState([]); // To store the fetched training data
-  const [message, setMessage] = useState('');
-
+ 
   // Fetch employee data on component mount
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -75,8 +76,8 @@ const Training = ({role}) => {
   };
 
   const handleSubmit = async (e) => {
-    
-    
+    e.preventDefault(); // Prevent the default form submission
+
     try {
       const response = await axios.post('http://localhost:3000/trainer/enterscore', formData, {
         headers: {
@@ -84,11 +85,15 @@ const Training = ({role}) => {
         },
       });
   
-      setMessage('Score submitted successfully!');
+      toast.success('Score submitted successfully!',{
+        autoClose:3
+      }); // Show success toast
       console.log('Success:', response.data);
     } catch (error) {
-      console.error('Error:', error.response ? error.response.data : error.message);
-      setMessage('Failed to submit score.');
+      console.log(error)
+      toast.error('Failed to submit score.',{
+        autoClose:3
+      }); // Show error toast
     }
   };
 
@@ -262,10 +267,9 @@ const Training = ({role}) => {
             Submit
           </button>
         </form>
-
-        {message && <p className="text-center text-red-500 mt-4">{message}</p>}
       </div>
     </div>
+    <ToastContainer /> 
     </div>
   );
 };

@@ -49,13 +49,14 @@ const Barchart = () => {
     },
     dataLabels: {
       enabled: true,
+      formatter: (val) => (val % 1 >= 0.5 ? Math.ceil(val) : Math.floor(val)), // Custom logic for ceiling/floor
     },
     xaxis: {
       categories: trainingNames,
       labels: {
         style: {
           colors: '#3411a3', // Hex color for x-axis labels
-          fontSize: '14px',  // Adjust font size if necessary
+          fontSize: '12px',  // Adjust font size if necessary
         }
       }
     },
@@ -64,7 +65,7 @@ const Barchart = () => {
         formatter: (value) => value.toFixed(0), // Format y-axis values to 2 decimal places
         style: {
           colors: '#3411a3', // Hex color for y-axis labels
-          fontSize: '14px',  // Adjust font size if necessary
+          fontSize: '12px',  // Adjust font size if necessary
         }
       }
     },
@@ -72,7 +73,7 @@ const Barchart = () => {
       position: 'top',
       labels: {
         colors: '#3411a3', 
-        fontSize:'14px' , // Hex color for legend text
+        fontSize:'12px' , // Hex color for legend text
         useSeriesColors: false,  // To avoid using series colors for the legend
       },
     },

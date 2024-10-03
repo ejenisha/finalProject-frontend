@@ -49,7 +49,7 @@ const PieChart = () => {
         return opts.w.config.series[opts.seriesIndex];
       },
       style: {
-        fontSize: '14px',
+        fontSize: '12px',
         colors: ['#000000'], // Label color
       }
     },
