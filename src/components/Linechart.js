@@ -1,5 +1,3 @@
-// src/Barchart.js
-
 import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 import axios from 'axios';
@@ -34,7 +32,7 @@ const Linechart = () => {
 
   const chartOptions = {
     chart: {
-      type: 'line', // Change chart type to 'line'
+      type: 'line',
       height: 300,
     },
     stroke: {
@@ -44,13 +42,19 @@ const Linechart = () => {
     dataLabels: {
       enabled: true,
       style: {
-        colors: ['#000'], // Set label color for better contrast
+        colors: ['#3411a3'], // Set label color for data labels
       },
     },
     xaxis: {
       categories: categories,
-    }
-   
+      labels: {
+        style: {
+          colors: '#3411a3', // Set the hex color for categories
+          fontSize: '14px', // You can adjust the font size if needed
+        },
+      },
+    },
+    colors: ['#EC4899'], // Set the line color
   };
 
   return (
@@ -58,7 +62,7 @@ const Linechart = () => {
       <Chart
         options={chartOptions}
         series={[{ name: 'Employees', data: seriesData }]}
-        type="line" // Change type to 'line'
+        type="line"
         height={300}
       />
     </div>

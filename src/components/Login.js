@@ -1,55 +1,58 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const Login = () => {
-  const [role, setRole] = useState('Admin'); // Default role: Admin
+const Login = ({ role, setRole }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // For navigation
+  const navigate = useNavigate();
 
   const handleRoleChange = (selectedRole) => {
     setRole(selectedRole);
+    localStorage.setItem('role', selectedRole); // Store role in localStorage
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent form submission
+    e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
+      const response = await axios.post('http://localhost:3000/login', {
+        email,
+        password,
       });
 
-      const data = await response.json();
-      console.log(data)
-      if (response.ok) {
-        // Save token in localStorage or context
-        localStorage.setItem('token', data.token);
+      const data = response.data; // Access the response data
 
-        // Redirect based on role
-        if (data.role === role && email===data.email) {
-          navigate('/Admin');
-        } else if (data.role === role && email===data.email) {
-          navigate('/trainer');
+      if (response.status === 200) {
+        localStorage.setItem('token', data.token); // Store token
+        localStorage.setItem('role', data.role); // Store role in localStorage
+
+        if (data.role === role) {
+          if (data.role === 'Admin') {
+            navigate('/Admin');
+          } else if (data.role === 'Trainer') {
+            navigate('/trainer');
+          }
+        } else {
+          alert('Selected role does not match the role in the database.');
         }
-        else{
-          alert("Invalid RoleCredentials")
-        }
-      } else {
-        alert(data.message); // Show error message
       }
     } catch (error) {
-      console.error('Error during login:', error);
-      alert('An error occurred. Please try again.');
+      // Handle errors based on the error response
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        alert(error.response.data.message || 'An error occurred. Please try again.');
+      } else {
+        // The request was made but no response was received
+        console.error('Error during login:', error);
+        alert('An error occurred. Please try again.');
+      }
     }
   };
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gray-900">
-      {/* Background image with opacity */}
+      {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center opacity-80"
         style={{
@@ -57,15 +60,11 @@ const Login = () => {
         }}
       ></div>
 
-      {/* Modal Form */}
       <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full p-8 z-10">
-        {/* Role Selection (Admin, Trainers) */}
         <div className="flex justify-center space-x-4 mb-6">
           <button
             className={`py-2 px-4 rounded-t-lg font-semibold ${
-              role === 'Admin'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200 text-gray-700'
+              role === 'Admin' ? 'bg-[#3411a3] text-white' : 'bg-gray-200 text-gray-700'
             }`}
             onClick={() => handleRoleChange('Admin')}
           >
@@ -73,19 +72,16 @@ const Login = () => {
           </button>
           <button
             className={`py-2 px-4 rounded-t-lg font-semibold ${
-              role === 'Trainers'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200 text-gray-700'
+              role === 'Trainer' ? 'bg-[#3411a3] text-white' : 'bg-gray-200 text-gray-700'
             }`}
-            onClick={() => handleRoleChange('Trainers')}
+            onClick={() => handleRoleChange('Trainer')}
           >
-            Trainers
+            Trainer
           </button>
         </div>
 
-        <h2 className="text-2xl font-extrabold text-center mb-6">LOG IN</h2>
+        <h2 className="text-2xl text-[#3411a3] font-extrabold text-center mb-6">LOG IN</h2>
 
-        {/* Login Form */}
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email-address" className="sr-only">
@@ -119,16 +115,10 @@ const Login = () => {
             />
           </div>
 
-          <div className="text-right">
-            <a href="#" className="text-sm text-blue-600 hover:text-blue-500">
-              Forgot Password?
-            </a>
-          </div>
-
           <div>
             <button
               type="submit"
-              className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md"
+              className="w-full py-2 px-4 bg-[#3411a3] hover:bg-blue-700 text-white font-medium rounded-md"
             >
               Log In
             </button>

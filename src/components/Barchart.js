@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 import axios from 'axios';
 
-const AverageScoresChart = () => {
+const Barchart = () => {
   const [averageScores, setAverageScores] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -52,11 +52,31 @@ const AverageScoresChart = () => {
     },
     xaxis: {
       categories: trainingNames,
+      labels: {
+        style: {
+          colors: '#3411a3', // Hex color for x-axis labels
+          fontSize: '14px',  // Adjust font size if necessary
+        }
+      }
+    },
+    yaxis: {
+      labels: {
+        formatter: (value) => value.toFixed(0), // Format y-axis values to 2 decimal places
+        style: {
+          colors: '#3411a3', // Hex color for y-axis labels
+          fontSize: '14px',  // Adjust font size if necessary
+        }
+      }
     },
     legend: {
       position: 'top',
+      labels: {
+        colors: '#3411a3', 
+        fontSize:'14px' , // Hex color for legend text
+        useSeriesColors: false,  // To avoid using series colors for the legend
+      },
     },
-    colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560'],
+    colors: ['#BE185D', '#DB2777', '#EC4899', '#F472B6'],
   };
 
   return (
@@ -76,4 +96,4 @@ const AverageScoresChart = () => {
   );
 };
 
-export default AverageScoresChart;
+export default Barchart;

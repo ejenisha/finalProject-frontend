@@ -1,30 +1,32 @@
+// src/Home.js
+
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Dashboardcard from './Dashboardcard';
 import Linechart from './Linechart'; // Import the Linechart component
-import Donutchart from './Donutchart'; // Import the Donut chart component
+import PieChart from './PieChart'; // Import the Donut chart component
 import Barchart from './Barchart'; // Import the Barchart component
+import Nav from './Nav';
 
-const Home = () => {
+const Home = ({ role }) => {
   const [totalEmployees, setTotalEmployees] = useState(0);
   const [totalTrainings, setTotalTrainings] = useState(0);
-  const [totalTrainers,setTotalTrainers]=useState(0)
+  const [totalTrainers, setTotalTrainers] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const employeesResponse = await axios.get('http://localhost:3000/getEmployees');
+        const employeesResponse = await axios.get('http://localhost:3000/getEmployeeCount');
         setTotalEmployees(employeesResponse.data.count);
 
-        const trainingsResponse = await axios.get('http://localhost:3000/getTraining');
+        const trainingsResponse = await axios.get('http://localhost:3000/AllTrainingCount');
         setTotalTrainings(trainingsResponse.data.count);
-        
-        const trainersResponse=await axios.get('http://localhost:3000/AllTrainers')
-        console.log(trainersResponse.data.count)
-        setTotalTrainers(trainersResponse.data.count)
-        
+
+        const trainersResponse = await axios.get('http://localhost:3000/AllTrainersCount');
+        console.log(trainersResponse.data.count);
+        setTotalTrainers(trainersResponse.data.count);
+
         setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -36,38 +38,31 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen w-full ml-6 mr-6"> {/* Ensure the div takes full width */}
-      <nav className="bg-[#3411a3] text-white p-4 shadow-md">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="text-xl font-semibold">Learning Management Portal</div>
-          <div className="space-x-12">
-            <Link to="/trainer/scores" className="hover:text-gray-200">Training Scores</Link>
-            <Link to="/trainer/displayscores" className="hover:text-gray-200">View Scores</Link>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen w-full ">
+      {/* Navbar Content */}
+      <Nav role={role} showNav={true} />
 
       {/* Dashboard Content */}
-      <div className="flex flex-wrap justify-between gap-6 w-full p-4  my-8"> {/* Flex container with padding for spacing */}
+      <div className="flex flex-wrap justify-between gap-6 w-full p-4 ">
         {loading ? (
-          <div className="text-center w-full">Loading...</div> // Center loading text
+          <div className="text-center w-full">Loading...</div>
         ) : (
           <>
-            <div className="flex-1 min-w-[200px]"> {/* Minimum width for responsive layout */}
+            <div className="flex-1 min-w-[200px] rounded-sm shadow-xl transition-transform transform hover:scale-105 ">
               <Dashboardcard 
                 title="Total Employees" 
                 count={totalEmployees} 
                 icon="👥" 
               />
             </div>
-            <div className="flex-1 min-w-[200px]">
+            <div className="flex-1 min-w-[200px] shadow-xl transition-transform transform hover:scale-105">
               <Dashboardcard 
                 title="Total Trainings" 
                 count={totalTrainings} 
                 icon="📚" 
               />
             </div>
-            <div className="flex-1 min-w-[200px]">
+            <div className="flex-1 min-w-[200px] shadow-xl transition-transform transform hover:scale-105">
               <Dashboardcard 
                 title="Total Trainers" 
                 count={totalTrainers} 
@@ -79,22 +74,25 @@ const Home = () => {
       </div>
 
       {/* Charts Section - Displaying Line Chart and Donut Chart side by side */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full p-4"> {/* Grid layout for charts */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full p-4 rounded-sm ">
         <div className="shadow-xl transition-transform transform hover:scale-105 p-4 bg-white rounded w-full h-full">
-          <h2 className="text-xl font-semibold mb-4">Employee Count by Training</h2>
+          <h2 className="text-xl font-bold text-[#3411a3] mb-4">Employee Count by Training</h2>
           <Linechart />
         </div>
 
-        <div className="shadow-xl transition-transform transform hover:scale-105 p-4 bg-white rounded w-full h-full">
-          <h2 className="text-xl font-semibold mb-4">Percentage of Employees by Score Range</h2>
-          <Donutchart />
-        </div>
+        <div className="shadow-xl transition-transform transform hover:scale-105 p-4 bg-white rounded w-full h-full flex flex-col"> {/* Flex column layout */}
+  <h2 className="text-xl font-bold text-[#3411a3] mb-4 text-left">Top Project Scores</h2>
+  <div className="w-full h-64 flex justify-center items-center"> {/* Set fixed height for proper centering */}
+    <PieChart />
+  </div>
+</div>
+
       </div>
 
       {/* Barchart Section - Displaying Barchart at the bottom */}
       <div className="shadow-xl transition-transform transform hover:scale-105 p-4 bg-white rounded w-full h-full mt-6 mb-6">
-        <h2 className="text-xl font-semibold mb-4">Average Scores by Training</h2>
-        <Barchart /> {/* Barchart component here */}
+        <h2 className="text-xl mb-4 font-bold text-[#3411a3]">Average Scores by Training</h2>
+        <Barchart />
       </div>
     </div>
   );
