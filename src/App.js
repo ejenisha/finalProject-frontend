@@ -6,6 +6,7 @@ import Displayscore from './components/Displayscore';
 import Login from './components/Login';
 import AddTraining from './components/AddTrainings';
 import EmployeeReport from './components/EmployeeReport';
+import AddEmployee from './components/AddEmployee';
 const App = () => {
   // Use localStorage to retrieve the role when the component mounts
   const [role, setRole] = useState(() => {
@@ -23,10 +24,13 @@ const App = () => {
         <Route path='/' element={<Login role={role} setRole={setRole} />} />
         <Route path='/Admin' element={<Home role={role} />} />
         <Route path='/trainer' element={<Home role={role} />} />
-        <Route path='/Admin/add' element={<AddTraining role={role} />} />
+        <Route path='/Admin/add/trainings' element={<AddTraining role={role} />} />
+        <Route path='/Admin/add/employees' element={<AddEmployee role={role} />} />
+        <Route path="/report" element={<EmployeeReport role={role} />} />
         <Route path="/trainer/scores" element={<Training role={role} />} />
         <Route path="/displayscores" element={<Displayscore role={role} />} />
         <Route path="/report" element={<EmployeeReport role={role} />} />
+        
       </Routes>
     </Router>
   );

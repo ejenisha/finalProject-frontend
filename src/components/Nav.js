@@ -29,8 +29,10 @@ const Nav = ({ role, setRole, showNav }) => {
             {role === "Trainer" ? (
               <Link to="/trainer/scores" className="hover:text-gray-200 text-xl">Training Scores</Link>
             ) : (
-              <Link to="/Admin/add" className="hover:text-gray-200 text-xl">Add Trainings and Employees</Link>
+              <Link to="/Admin/add/trainings" className="hover:text-gray-200 text-xl">Add Trainings</Link>
+              
             )}
+            {role==="Admin" && <Link to="/Admin/add/employees" className="hover:text-gray-200 text-xl">Add Employees</Link>}
             <Link to="/displayscores" className="hover:text-gray-200 text-xl">View Scores</Link>
             <Link to="/report" className="hover:text-gray-200 text-xl">Individual Report</Link>
             {/* Logout Button */}
