@@ -61,12 +61,12 @@ const PieChart = () => {
         }
       }
     },
-    colors: ['#a94064', '#fc6c85','#fc8eac', '#ff9999', '#ffd1dc','#ffd7e9'], // Custom colors
+    colors: ['#e4007c', '#ff1493','#db7093', '#ff69b4', '#ffe4e1','#ffc0cb','#cc3366','#fc0fc0','#cf6ba9','#d7837f','#fb607f'], // Custom colors
     responsive: [{
       breakpoint: 480,
       options: {
         chart: {
-          width: 550
+          width: 500
         },
         legend: {
           position: 'bottom'
@@ -81,7 +81,7 @@ const PieChart = () => {
         options={chartOptions} 
         series={data.series} 
         type="pie"  // Display as a pie chart
-        width="550"
+        width="500"
       />
     </div>
   );

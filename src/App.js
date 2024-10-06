@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './components/Home';
-import Training from './components/Training'; 
-import Displayscore from './components/Displayscore';
-import Login from './components/Login';
-import AddTraining from './components/AddTrainings';
-import EmployeeReport from './components/EmployeeReport';
-import AddEmployee from './components/AddEmployee';
+import Home from './components/AdminVisualization/Home';
+import Training from './components/EnterTrainingScore/Training'; 
+import Displayscore from './components/ViewScore/Displayscore';
+import Login from './components/Login/Login';
+import AddTraining from './components/AddTraining/AddTrainings';
+import EmployeeReport from './components/IndividualReport/EmployeeReport';
+import AddEmployee from './components/AddEmployee/AddEmployee';
 const App = () => {
   // Use localStorage to retrieve the role when the component mounts
   const [role, setRole] = useState(() => {
