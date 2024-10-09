@@ -188,7 +188,7 @@ const AddTraining = ({ role }) => {
               className="block mb-1 font-semibold text-[#3411a3]"
               htmlFor="email"
             >
-              Trainer Email
+              Trainer Email (Not Required if the trainer already exist)
             </label>
             <input
               type="email"
@@ -197,14 +197,14 @@ const AddTraining = ({ role }) => {
               placeholder="Enter Trainer's Email"
               value={training.email}
               onChange={handleTrainingChange}
-              required
+              
               className="border rounded p-2 mb-2 w-full outline-none"
             />
             <label
               className="block mb-1 font-semibold text-[#3411a3]"
               htmlFor="password"
             >
-              Password
+              Password (Not Required if the trainer already exist)
             </label>
             <input
               type="password"
@@ -213,7 +213,7 @@ const AddTraining = ({ role }) => {
               placeholder="Enter Trainer's Password"
               value={training.password}
               onChange={handleTrainingChange}
-              required
+             
               className="border rounded p-2 mb-2 w-full outline-none"
             />
             <label

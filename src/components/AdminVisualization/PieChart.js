@@ -44,13 +44,14 @@ const PieChart = () => {
       type: 'pie',  // Using pie chart
     },
     dataLabels: {
+      enabled: true,
       formatter: (val, opts) => {
         // Display raw values (whole numbers) instead of percentages
         return opts.w.config.series[opts.seriesIndex];
       },
       style: {
         fontSize: '12px',
-        colors: ['#000000'], // Label color
+        colors: ['#3411a3'], // Set data label color to #3411a3
       }
     },
     tooltip: {
@@ -59,6 +60,11 @@ const PieChart = () => {
           // Tooltip to show raw values instead of percentages
           return `${val} points`;
         }
+      }
+    },
+    legend: {
+      labels: {
+        colors: '#3411a3', // Set legend text color to #3411a3
       }
     },
     colors: ['#e4007c', '#ff1493','#db7093', '#ff69b4', '#ffe4e1','#ffc0cb','#cc3366','#fc0fc0','#cf6ba9','#d7837f','#fb607f'], // Custom colors
