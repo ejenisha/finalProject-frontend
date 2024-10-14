@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Nav from "../Login/Nav";
-import { ToastContainer, toast } from "react-toastify"; // Import Toastify components
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const Training = ({ role }) => {
   const [formData, setFormData] = useState({
@@ -25,9 +25,9 @@ const Training = ({ role }) => {
     const fetchEmployees = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/getAllEmployees"
-        ); // Fetch employee data
-        setEmployees(response.data); // Store the employee data
+          "http://localhost:3000/getAllEmployees" //get all employee details
+        );
+        setEmployees(response.data);
       } catch (error) {
         console.error("Error fetching employee data:", error);
       }
@@ -36,9 +36,9 @@ const Training = ({ role }) => {
     const fetchTrainings = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/getAllTrainings"
-        ); // Fetch training data
-        setTrainings(response.data); // Store the training data
+          "http://localhost:3000/getAllTrainings" //get all training data
+        );
+        setTrainings(response.data);
       } catch (error) {
         console.error("Error fetching training data:", error);
       }
@@ -84,7 +84,7 @@ const Training = ({ role }) => {
   const handleSubmit = async (e) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/trainer/enterscore",
+        "http://localhost:3000/trainer/enterscore", //enter training score
         formData,
         {
           headers: {
@@ -95,13 +95,13 @@ const Training = ({ role }) => {
 
       toast.success("Score submitted successfully!", {
         autoClose: 3,
-      }); // Show success toast
+      });
       console.log("Success:", response.data);
     } catch (error) {
       console.log(error);
       toast.error("Failed to submit score.", {
         autoClose: 3,
-      }); // Show error toast
+      });
     }
   };
 

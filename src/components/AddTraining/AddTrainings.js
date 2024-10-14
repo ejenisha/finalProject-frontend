@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import Nav from "../Login/Nav";
-import axios from "axios"; // Import Axios
-import { ToastContainer, toast } from "react-toastify"; // Import Toastify components
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AddTraining = ({ role }) => {
@@ -197,7 +197,6 @@ const AddTraining = ({ role }) => {
               placeholder="Enter Trainer's Email"
               value={training.email}
               onChange={handleTrainingChange}
-              
               className="border rounded p-2 mb-2 w-full outline-none"
             />
             <label
@@ -213,7 +212,6 @@ const AddTraining = ({ role }) => {
               placeholder="Enter Trainer's Password"
               value={training.password}
               onChange={handleTrainingChange}
-             
               className="border rounded p-2 mb-2 w-full outline-none"
             />
             <label
@@ -279,18 +277,31 @@ const AddTraining = ({ role }) => {
         <h2 className="text-xl font-bold text-[#3411a3] mb-2">Training List</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {trainings.map((trainingItem) => (
-            <div key={trainingItem.Training_id} className=" text-[#3411a3] border rounded p-6 text-lg bg-pink-200">
+            <div
+              key={trainingItem.Training_id}
+              className=" text-[#3411a3] border rounded p-6 text-lg bg-pink-200"
+            >
               <h3 className="font-bold mb-4 text-xl">
                 {trainingItem.Training_name}
               </h3>
-              <p className="font-semibold mb-2">Training ID: <span className="ml-1">{trainingItem.Training_id}</span></p>
-              <p className=" font-semibold mb-2">Trainer:     <span className="ml-8">{trainingItem.Trainer_name}</span></p>
-    
+              <p className="font-semibold mb-2">
+                Training ID:{" "}
+                <span className="ml-1">{trainingItem.Training_id}</span>
+              </p>
+              <p className=" font-semibold mb-2">
+                Trainer:{" "}
+                <span className="ml-8">{trainingItem.Trainer_name}</span>
+              </p>
+
               <div className="flex space-x-4 mt-4">
                 <button
                   onClick={() => handleCompleteTraining(trainingItem)}
                   disabled={trainingItem.progress === "Completed"}
-                  className={`text-white px-2 py-1 rounded ${trainingItem.progress=="Completed"? "bg-green-400" :"bg-blue-500"} ${
+                  className={`text-white px-2 py-1 rounded ${
+                    trainingItem.progress == "Completed"
+                      ? "bg-green-400"
+                      : "bg-blue-500"
+                  } ${
                     trainingItem.progress === "Completed"
                       ? "opacity-50 cursor-not-allowed"
                       : ""

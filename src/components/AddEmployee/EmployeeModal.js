@@ -25,6 +25,7 @@ const EmployeeModal = ({
       >
         &times;
       </button>
+      {/*Edit Employee Form*/}
       <form onSubmit={handleSubmit}>
         <label
           className="font-semibold block mb-1 text-[#3411a3]"

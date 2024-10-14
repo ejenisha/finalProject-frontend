@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect } from "react";
 import Nav from "../Nav";
-import axios from "axios"; // Import Axios
-import { ToastContainer, toast } from "react-toastify"; // Import Toastify components
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import TrainingModal from "./TrainingModal"; // Import the new modal component
+import TrainingModal from "./TrainingModal";
 
 const AddTraining = ({ role }) => {
   const [isTrainingModalOpen, setIsTrainingModalOpen] = useState(false);

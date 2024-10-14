@@ -1,5 +1,3 @@
-// src/components/DashboardCard.js
-
 import React from 'react';
 import './Dashboardcard.css';
 const Dashboardcard = ({ title, count, icon }) => {

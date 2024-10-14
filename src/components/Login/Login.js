@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = ({ role, setRole }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleRoleChange = (selectedRole) => {
     setRole(selectedRole);
-    localStorage.setItem('role', selectedRole); // Store role in localStorage
+    localStorage.setItem("role", selectedRole); // Store role in localStorage
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3000/login', {
+      const response = await axios.post("http://localhost:3000/login", {
         email,
         password,
       });
@@ -24,28 +24,30 @@ const Login = ({ role, setRole }) => {
       const data = response.data; // Access the response data
 
       if (response.status === 200) {
-        localStorage.setItem('token', data.token); // Store token
-        localStorage.setItem('role', data.role); // Store role in localStorage
+        localStorage.setItem("token", data.token); // Store token
+        localStorage.setItem("role", data.role); // Store role in localStorage
 
         if (data.role === role) {
-          if (data.role === 'Admin') {
-            navigate('/Admin');
-          } else if (data.role === 'Trainer') {
-            navigate('/trainer');
+          if (data.role === "Admin") {
+            navigate("/Admin");
+          } else if (data.role === "Trainer") {
+            navigate("/trainer");
           }
         } else {
-          alert('Selected role does not match the role in the database.');
+          alert("Selected role does not match the role in the database.");
         }
       }
     } catch (error) {
       // Handle errors based on the error response
       if (error.response) {
         // The request was made and the server responded with a status code
-        alert(error.response.data.message || 'An error occurred. Please try again.');
+        alert(
+          error.response.data.message || "An error occurred. Please try again."
+        );
       } else {
         // The request was made but no response was received
-        console.error('Error during login:', error);
-        alert('An error occurred. Please try again.');
+        console.error("Error during login:", error);
+        alert("An error occurred. Please try again.");
       }
     }
   };
@@ -64,23 +66,29 @@ const Login = ({ role, setRole }) => {
         <div className="flex justify-center space-x-4 mb-6">
           <button
             className={`py-2 px-4 rounded-t-lg font-semibold ${
-              role === 'Admin' ? 'bg-[#3411a3] text-white' : 'bg-gray-200 text-gray-700'
+              role === "Admin"
+                ? "bg-[#3411a3] text-white"
+                : "bg-gray-200 text-gray-700"
             }`}
-            onClick={() => handleRoleChange('Admin')}
+            onClick={() => handleRoleChange("Admin")}
           >
             Admin
           </button>
           <button
             className={`py-2 px-4 rounded-t-lg font-semibold ${
-              role === 'Trainer' ? 'bg-[#3411a3] text-white' : 'bg-gray-200 text-gray-700'
+              role === "Trainer"
+                ? "bg-[#3411a3] text-white"
+                : "bg-gray-200 text-gray-700"
             }`}
-            onClick={() => handleRoleChange('Trainer')}
+            onClick={() => handleRoleChange("Trainer")}
           >
             Trainer
           </button>
         </div>
 
-        <h2 className="text-2xl text-[#3411a3] font-extrabold text-center mb-6">LOG IN</h2>
+        <h2 className="text-2xl text-[#3411a3] font-extrabold text-center mb-6">
+          LOG IN
+        </h2>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>

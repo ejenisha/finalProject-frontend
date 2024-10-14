@@ -19,6 +19,7 @@ const AddEmployee = ({ role }) => {
     fetchEmployees();
   }, []);
 
+  {/*get all Employees*/}
   const fetchEmployees = async () => {
     try {
       const response = await axios.get("http://localhost:3000/getAllEmployees");
@@ -29,6 +30,7 @@ const AddEmployee = ({ role }) => {
     }
   };
 
+
   const handleEmployeeChange = (e) => {
     setEmployee({ ...employee, [e.target.name]: e.target.value });
   };
@@ -38,6 +40,7 @@ const AddEmployee = ({ role }) => {
     await addEmployee();
   };
 
+{/*Add Employees*/}
   const addEmployee = async () => {
     try {
       await axios.post("http://localhost:3000/addEmployee", employee);
@@ -61,6 +64,7 @@ const AddEmployee = ({ role }) => {
     await updateEmployee();
   };
 
+{/*Edit Employees*/}
   const updateEmployee = async () => {
     try {
       await axios.patch(
@@ -77,6 +81,7 @@ const AddEmployee = ({ role }) => {
     }
   };
 
+{/*Delete Employees*/}
   const handleDeleteEmployee = async (emp_id) => {
     try {
       await axios.delete(`http://localhost:3000/deleteEmployee/${emp_id}`);
@@ -103,6 +108,7 @@ const AddEmployee = ({ role }) => {
           Add Employee
         </button>
       </div>
+          {/*Employee Table*/}
       <div className="p-4 ml-32 mr-32">
         <h2 className="text-xl font-bold mb-4 text-[#3411a3]">Employee List</h2>
         <table className="min-w-full border rounded-lg shadow-lg overflow-hidden">
@@ -121,8 +127,11 @@ const AddEmployee = ({ role }) => {
               <tr key={emp.emp_id} className="hover:bg-gray-100">
                 <td className="border-b-0 p-6 font-semibold">{emp.emp_id}</td>
                 <td className="border-b-0 p-6 font-semibold">{emp.emp_name}</td>
-                <td className="border-b-0 p-6 font-semibold">{emp.designation}</td>
+                <td className="border-b-0 p-6 font-semibold">
+                  {emp.designation}
+                </td>
                 <td className="border-b-0 p-6 font-semibold space-x-3 ">
+                {/*Edit Employee*/}
                   <button onClick={() => handleEditEmployee(emp)}>
                     <svg
                       className="w-6 h-6 text-[#3411a3] dark:text-white"
@@ -142,6 +151,8 @@ const AddEmployee = ({ role }) => {
                       />
                     </svg>
                   </button>
+                  
+              {/*Delete Employee*/}
                   <button onClick={() => handleDeleteEmployee(emp.emp_id)}>
                     <svg
                       className="w-6 h-6 text-red-700 dark:text-white"
