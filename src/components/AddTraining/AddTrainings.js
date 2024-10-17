@@ -173,6 +173,7 @@ const AddTraining = ({ role }) => {
           onRequestClose={() => setIsTrainingModalOpen(false)}
           className="bg-white p-4 rounded shadow-lg h-3/5 w-2/5 relative"
           overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+          shouldCloseOnOverlayClick={false}
         >
           <h2 className="text-lg font-bold mb-4  text-[#3411a3]">
             Add Training
@@ -394,6 +395,7 @@ const AddTraining = ({ role }) => {
           onRequestClose={() => setIsEditing(false)}
           className="bg-white p-4 rounded shadow-lg h-3/2 w-3/3 relative"
           overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+          shouldCloseOnOverlayClick={false}
         >
           <h2 className="text-lg font-bold mb-4 font-bold text-[#3411a3]">
             Edit Training

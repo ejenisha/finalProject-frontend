@@ -7,7 +7,7 @@ const EmployeeModal = ({
   employee,
   handleEmployeeChange,
   handleSubmit,
-  isEdit,
+  isEdit
 }) => {
   return (
     <Modal

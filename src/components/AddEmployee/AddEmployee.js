@@ -3,11 +3,11 @@ import Nav from "../Login/Nav";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import EmployeeModal from "./EmployeeModal"; // Import the new modal component
+import EmployeeModal from "./EmployeeModal"; // Single modal component
 
 const AddEmployee = ({ role }) => {
-  const [isEmployeeModalOpen, setIsEmployeeModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Single state for modal open
+  const [isEditMode, setIsEditMode] = useState(false); // Single state to track edit or add mode
   const [employee, setEmployee] = useState({
     emp_id: "",
     emp_name: "",
@@ -30,41 +30,34 @@ const AddEmployee = ({ role }) => {
     }
   };
 
-
   const handleEmployeeChange = (e) => {
     setEmployee({ ...employee, [e.target.name]: e.target.value });
   };
 
   const handleEmployeeSubmit = async (e) => {
     e.preventDefault();
-    await addEmployee();
+    if (isEditMode) {
+      await updateEmployee();
+    } else {
+      await addEmployee();
+    }
   };
 
-{/*Add Employees*/}
+  {/*Add Employees*/}
   const addEmployee = async () => {
     try {
       await axios.post("http://localhost:3000/addEmployee", employee);
       toast.success("Employee added successfully", { autoClose: 3000 });
       resetEmployeeForm();
       fetchEmployees();
-      setIsEmployeeModalOpen(false);
+      setIsModalOpen(false);
     } catch (error) {
       console.error("Error adding employee:", error);
       toast.error("Error adding employee", { autoClose: 3000 });
     }
   };
 
-  const handleEditEmployee = (emp) => {
-    setEmployee(emp);
-    setIsEditModalOpen(true);
-  };
-
-  const handleUpdateEmployee = async (e) => {
-    e.preventDefault();
-    await updateEmployee();
-  };
-
-{/*Edit Employees*/}
+  {/*Edit Employees*/}
   const updateEmployee = async () => {
     try {
       await axios.patch(
@@ -74,14 +67,14 @@ const AddEmployee = ({ role }) => {
       toast.success("Employee updated successfully", { autoClose: 3000 });
       resetEmployeeForm();
       fetchEmployees();
-      setIsEditModalOpen(false);
+      setIsModalOpen(false);
     } catch (error) {
       console.error("Error updating employee:", error);
       toast.error("Error updating employee", { autoClose: 3000 });
     }
   };
 
-{/*Delete Employees*/}
+  {/*Delete Employees*/}
   const handleDeleteEmployee = async (emp_id) => {
     try {
       await axios.delete(`http://localhost:3000/deleteEmployee/${emp_id}`);
@@ -93,8 +86,15 @@ const AddEmployee = ({ role }) => {
     }
   };
 
+  const handleEditEmployee = (emp) => {
+    setEmployee(emp);
+    setIsEditMode(true);
+    setIsModalOpen(true);
+  };
+
   const resetEmployeeForm = () => {
     setEmployee({ emp_id: "", emp_name: "", designation: "" });
+    setIsEditMode(false);
   };
 
   return (
@@ -102,13 +102,17 @@ const AddEmployee = ({ role }) => {
       <Nav role={role} showNav={true} />
       <div className="flex p-4">
         <button
-          onClick={() => setIsEmployeeModalOpen(true)}
+          onClick={() => {
+            setIsEditMode(false); // Set to Add mode
+            setIsModalOpen(true);
+          }}
           className="bg-blue-600 text-white px-4 py-2 rounded shadow-lg transition"
         >
           Add Employee
         </button>
       </div>
-          {/*Employee Table*/}
+
+      {/*Employee Table*/}
       <div className="p-4 ml-32 mr-32">
         <h2 className="text-xl font-bold mb-4 text-[#3411a3]">Employee List</h2>
         <table className="min-w-full border rounded-lg shadow-lg overflow-hidden">
@@ -131,7 +135,7 @@ const AddEmployee = ({ role }) => {
                   {emp.designation}
                 </td>
                 <td className="border-b-0 p-6 font-semibold space-x-3 ">
-                {/*Edit Employee*/}
+                  {/*Edit Employee*/}
                   <button onClick={() => handleEditEmployee(emp)}>
                     <svg
                       className="w-6 h-6 text-[#3411a3] dark:text-white"
@@ -151,8 +155,8 @@ const AddEmployee = ({ role }) => {
                       />
                     </svg>
                   </button>
-                  
-              {/*Delete Employee*/}
+
+                  {/*Delete Employee*/}
                   <button onClick={() => handleDeleteEmployee(emp.emp_id)}>
                     <svg
                       className="w-6 h-6 text-red-700 dark:text-white"
@@ -177,24 +181,14 @@ const AddEmployee = ({ role }) => {
         </table>
       </div>
 
-      {/* Employee Modal for Adding */}
+      {/* Single Modal for Both Add and Edit */}
       <EmployeeModal
-        isOpen={isEmployeeModalOpen}
-        onRequestClose={() => setIsEmployeeModalOpen(false)}
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
         employee={employee}
         handleEmployeeChange={handleEmployeeChange}
         handleSubmit={handleEmployeeSubmit}
-        isEdit={false}
-      />
-
-      {/* Employee Modal for Editing */}
-      <EmployeeModal
-        isOpen={isEditModalOpen}
-        onRequestClose={() => setIsEditModalOpen(false)}
-        employee={employee}
-        handleEmployeeChange={handleEmployeeChange}
-        handleSubmit={handleUpdateEmployee}
-        isEdit={true}
+        isEdit={isEditMode}
       />
 
       <ToastContainer />
