@@ -162,11 +162,13 @@ const EmployeeReport = ({ role }) => {
               <option value="" disabled>
                 Select Employee ID
               </option>
-              {empOptions.map((emp) => (
-                <option key={emp.emp_id} value={emp.emp_id}>
-                  {emp.emp_id}
-                </option>
-              ))}
+              {[...new Set(empOptions.map((emp) => emp.emp_id))].map(
+                (uniqueId) => (
+                  <option key={uniqueId} value={uniqueId}>
+                    {uniqueId}
+                  </option>
+                )
+              )}
             </select>
           </label>
           <label className="mr-4 font-semibold text-[#3411a3]">
@@ -196,9 +198,7 @@ const EmployeeReport = ({ role }) => {
                 <strong className="text-[#3411a3] font-bold text-xl mr-20">
                   ID:
                 </strong>
-                <span className="text-[#EC4899]">
-                  {employeeDetails.emp_id}
-                </span>
+                <span className="text-[#EC4899]">{employeeDetails.emp_id}</span>
               </p>
               <p className="mb-1 font-bold text-xl">
                 <strong className="text-[#3411a3] font-bold text-xl mr-12">
@@ -240,7 +240,7 @@ const EmployeeReport = ({ role }) => {
           </div>
         )}
 
-       {/*Training Score and Comment Table*/}
+        {/*Training Score and Comment Table*/}
         {trainingScores.length > 0 && (
           <div className="w-full mt-4 p-4 bg-white shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-300">
             <h2 className="text-xl font-bold mb-2 text-[#3411a3]">
