@@ -44,58 +44,76 @@ const AddTraining = ({ role }) => {
   const handleTrainingSubmit = async (e) => {
     e.preventDefault();
 
-    const { email, password, role, Training_id, Training_name, Trainer_name } =
-      training;
+    const { email, password, role, Training_id, Training_name, Trainer_name } = training;
 
     try {
-      // First POST request to store trainer email, password, and role
-      const createUserResponse = await axios.post(
-        "http://localhost:3000/register",
-        {
-          email,
-          password,
-          role,
+        // Step 1: Check if the trainer email already exists
+        const emailCheckResponse = await axios.get(`http://localhost:3000/checkTrainer?email=${email}`);
+        console.log('Email Check Response:', emailCheckResponse.data); // Log response
+
+        // If trainer exists, show error message and return
+        if (emailCheckResponse.data.exists) {
+            toast.error("Trainer already exists", { autoClose: 3000 });
+            return; // Stop execution if the trainer already exists
         }
-      );
-      console.log("Trainer user created:", createUserResponse.data);
 
-      // Second POST request to store remaining training details
-      const addTrainingResponse = await axios.post(
-        "http://localhost:3000/addTraining",
-        {
-          Training_id,
-          Training_name,
-          Trainer_name,
+        // Step 2: Check if the training ID already exists
+        const trainingIdCheckResponse = await axios.get(`http://localhost:3000/checkTraining?Training_id=${Training_id}`);
+        console.log('Training ID Check Response:', trainingIdCheckResponse.data); // Log response
+
+        // If training exists, show error message and return
+        if (trainingIdCheckResponse.data.exists) {
+            toast.error("Training already exists", { autoClose: 3000 });
+            return; // Stop execution if the training already exists
         }
-      );
-      console.log("Training added:", addTrainingResponse.data);
 
-      // Close modal and reset form fields
-      setIsTrainingModalOpen(false);
-      setTraining({
-        Training_id: "",
-        Training_name: "",
-        Trainer_name: "",
-        email: "",
-        password: "",
-        role: "Trainer",
-      });
+        // Step 3: If both checks pass, proceed to create trainer and add training
+        const createUserResponse = await axios.post("http://localhost:3000/register", {
+            email,
+            password,
+            role,
+        });
+        console.log("Trainer user created:", createUserResponse.data);
 
-      // Update the state to include the new training immediately
-      setTrainings((prevTrainings) => [
-        ...prevTrainings,
-        addTrainingResponse.data,
-      ]);
+        const addTrainingResponse = await axios.post("http://localhost:3000/addTraining", {
+            Training_id,
+            Training_name,
+            Trainer_name,
+        });
+        console.log("Training added:", addTrainingResponse.data);
 
-      toast.success("Training added successfully", { autoClose: 3000 });
+        // Close modal and reset form fields
+        setIsTrainingModalOpen(false);
+        setTraining({
+            Training_id: "",
+            Training_name: "",
+            Trainer_name: "",
+            email: "",
+            password: "",
+            role: "Trainer",
+        });
+
+        // Update the state to include the new training immediately
+        setTrainings((prevTrainings) => [...prevTrainings, addTrainingResponse.data]);
+
+        toast.success("Training added successfully", { autoClose: 3000 });
     } catch (error) {
-      console.error(
-        "Error adding training:",
-        error.response?.data || error.message
-      );
-      toast.error("Error adding training", { autoClose: 3000 });
+        console.error("Error adding training:", error);
+        if (error.response && error.response.data) {
+            // Display specific error messages from the server
+            if (error.response.data.message) {
+                toast.error(error.response.data.message, { autoClose: 3000 });
+            } else {
+                toast.error("Error adding training", { autoClose: 3000 });
+            }
+        } else {
+            toast.error("Error adding training", { autoClose: 3000 });
+        }
     }
-  };
+};
+
+
+
 
   // Handle training edit click
   const handleEditClick = (trainingItem) => {
@@ -407,6 +425,27 @@ const AddTraining = ({ role }) => {
             &times;
           </button>
           <form onSubmit={handleUpdateSubmit}>
+          <label
+              className="block mb-1 font-semibold text-[#3411a3]"
+              htmlFor="Training_id"
+            >
+              Training Id
+            </label>
+            <input
+              type="text"
+              id="Training_id"
+              name="Training_id"
+              value={currentTraining.Training_id}
+              onChange={(e) =>
+                setCurrentTraining({
+                  ...currentTraining,
+                  Training_id: e.target.value,
+                })
+              }
+              required
+              className="border rounded p-2 mb-2 w-full outline-none"
+              disabled={true}
+            />
             <label
               className="block mb-1 font-semibold text-[#3411a3]"
               htmlFor="Training_name"
